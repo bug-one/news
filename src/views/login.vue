@@ -1,6 +1,7 @@
 <template>
   <div>
-    <inputTemplate @send-value="getValue"></inputTemplate>
+    <inputTemplate @send-value="getValue" tips="用户名"></inputTemplate>
+    <inputTemplate @send-value="getValue" tips="密码"></inputTemplate>
   </div>
 </template>
 
