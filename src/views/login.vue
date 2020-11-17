@@ -6,12 +6,16 @@
     <span class="logo iconfont iconnew"></span>
     <div class="userMessage">
       <inputTemplate
-        tips="请输入用户名"
+        placeholder="请输入用户名"
+        errMes="用户名不符合，请输入3-8位字符"
+        :rule="/^.{3,8}$/"
         @get-value="getUserName"
       ></inputTemplate>
       <inputTemplate
         type="password"
-        tips="请输入密码"
+        placeholder="请输入密码"
+        errMes="密码不符合，请输入8-16位字符"
+        :rule="/^.{8,16}$/"
         @get-value="getPassWord"
       ></inputTemplate>
     </div>
@@ -24,8 +28,8 @@
 </template>
 
 <script>
-import inputTemplate from "../components/inputTemplate";
-import buttonTemplate from "../components/buttonTemplate";
+import inputTemplate from "../components/InputTemplate";
+import buttonTemplate from "../components/ButtonTemplate";
 export default {
   components: {
     inputTemplate,
