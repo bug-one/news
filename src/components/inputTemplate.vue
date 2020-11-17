@@ -46,7 +46,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 input {
   font-size: 4vw;
   width: 80vw;

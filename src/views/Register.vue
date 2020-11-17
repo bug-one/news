@@ -1,5 +1,5 @@
 <template>
-  <div id="login">
+  <div id="register">
     <div class="title">
       <span class="close iconfont iconicon-test"></span>
     </div>
@@ -9,21 +9,20 @@
         placeholder="请输入用户名"
         errMes="用户名不符合，请输入3-8位字符"
         :rule="/^.{3,8}$/"
-        @get-value="getUserName"
       ></inputTemplate>
       <inputTemplate
-        type="password"
+        placeholder="设置昵称"
+        errMes="昵称不符合，请输入3-8位字符"
+        :rule="/^.{3,8}$/"
+      ></inputTemplate>
+      <inputTemplate
         placeholder="请输入密码"
         errMes="密码不符合，请输入8-16位字符"
         :rule="/^.{8,16}$/"
-        @get-value="getPassWord"
+        type="password"
       ></inputTemplate>
     </div>
-    <buttonTemplate
-      @click.native="login"
-      class="toLogin"
-      value="登录"
-    ></buttonTemplate>
+    <buttonTemplate class="toLogin" value="注册"></buttonTemplate>
   </div>
 </template>
 
@@ -35,28 +34,11 @@ export default {
     inputTemplate,
     buttonTemplate,
   },
-  data() {
-    return {
-      userName: "",
-      passWord: "",
-    };
-  },
-  methods: {
-    getUserName(val) {
-      this.userName = val;
-    },
-    getPassWord(val) {
-      this.passWord = val;
-    },
-    login() {
-      console.log(this.userName, this.passWord);
-    },
-  },
 };
 </script>
 
 <style lang="less" scoped>
-#login {
+#register {
   width: 100vw;
   height: 100vh;
   background-color: #eee;
@@ -79,7 +61,7 @@ export default {
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    height: 30vw;
+    height: 50vw;
     margin-top: 10vw;
   }
   .toLogin {

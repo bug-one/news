@@ -10,7 +10,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less" scoped>
 button {
   width: 80vw;
   height: 12vw;
