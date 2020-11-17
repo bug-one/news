@@ -1,13 +1,17 @@
 <template>
   <div>
-    <input type="text" v-model="value" :placeholder="tips" />
-    <button @click="$emit('send-value', value)">提交</button>
+    <input
+      :type="type"
+      :placeholder="tips"
+      v-model="value"
+      @change="$emit('get-value', value)"
+    />
   </div>
 </template>
 
 <script>
 export default {
-  props: ["tips"],
+  props: ["tips", "type"],
   data() {
     return {
       value: "",
@@ -16,5 +20,15 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+input {
+  font-size: 4vw;
+  width: 80vw;
+  height: 10vw;
+  padding-left: 4vw;
+  color: rgb(255, 46, 92);
+  border: 1px solid rgb(255, 46, 92);
+  background-color: rgb(255, 248, 250);
+  outline: none;
+}
 </style>
