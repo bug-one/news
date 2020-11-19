@@ -49,6 +49,13 @@ export default {
       this.passWord = val;
     },
     login() {
+      if (this.userName == "" || this.passWord == "") {
+        this.$toast({
+          message: "用户名或密码为空",
+          position: "bottom",
+        });
+        return false;
+      }
       this.$axios({
         method: "post",
         url: "http://157.122.54.189:9083/login",
@@ -57,7 +64,6 @@ export default {
           password: this.passWord,
         },
       }).then((res) => {
-        console.log(res);
         if (res.status === 200) {
           this.$toast({
             message: res.data.message,
