@@ -42,6 +42,9 @@ export default {
         this.isOk = true;
       }
     },
+    isOk(newValue) {
+      this.$emit("legal", newValue);
+    },
   },
 };
 </script>

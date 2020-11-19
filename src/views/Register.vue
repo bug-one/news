@@ -9,20 +9,30 @@
         placeholder="请输入用户名"
         errMes="用户名不符合，请输入3-8位字符"
         :rule="/^.{3,8}$/"
+        @get-value="getUserName"
+        @legal="getUserNameLegal"
       ></inputTemplate>
       <inputTemplate
         placeholder="设置昵称"
         errMes="昵称不符合，请输入3-8位字符"
         :rule="/^.{3,8}$/"
+        @get-value="getNickName"
+        @legal="getNickNameLegal"
       ></inputTemplate>
       <inputTemplate
         placeholder="请输入密码"
-        errMes="密码不符合，请输入8-16位字符"
-        :rule="/^.{8,16}$/"
+        errMes="密码不符合，请输入3-16位字符"
+        :rule="/^.{3,16}$/"
         type="password"
+        @get-value="getPassWord"
+        @legal="getPassWordLegal"
       ></inputTemplate>
     </div>
-    <buttonTemplate class="toLogin" value="注册"></buttonTemplate>
+    <buttonTemplate
+      class="toLogin"
+      value="注册"
+      @click.native="register"
+    ></buttonTemplate>
   </div>
 </template>
 
@@ -30,9 +40,82 @@
 import inputTemplate from "../components/InputTemplate";
 import buttonTemplate from "../components/ButtonTemplate";
 export default {
+  data() {
+    return {
+      username: "",
+      nickname: "",
+      password: "",
+      userNameLegal: "",
+      nickNameLegal: "",
+      passWordLegal: "",
+    };
+  },
   components: {
     inputTemplate,
     buttonTemplate,
+  },
+  methods: {
+    getUserName(val) {
+      this.username = val;
+    },
+    getNickName(val) {
+      this.nickname = val;
+    },
+    getPassWord(val) {
+      this.password = val;
+    },
+    getUserNameLegal(val) {
+      this.userNameLegal = val;
+    },
+    getNickNameLegal(val) {
+      this.nickNameLegal = val;
+    },
+    getPassWordLegal(val) {
+      this.passWordLegal = val;
+    },
+    register() {
+      if (this.username == "") {
+        this.$toast("用户名不能为空");
+        return false;
+      }
+      if (this.nickname == "") {
+        this.$toast("昵称不能为空");
+        return false;
+      }
+      if (this.password == "") {
+        this.$toast("密码不能为空");
+        return false;
+      }
+      if (this.userNameLegal && this.nickNameLegal && this.passWordLegal) {
+        this.$axios({
+          method: "post",
+          url: "http://157.122.54.189:9083/register",
+          data: {
+            username: this.username,
+            password: this.password,
+            nickname: this.nickname,
+          },
+        }).then((res) => {
+          if (res.status === 200) {
+            this.$toast({
+              message: res.data.message,
+              position: "bottom",
+            });
+            if (res.data.message == "注册成功") {
+              setTimeout(() => {
+                this.$router.push("/login");
+              }, 500);
+            }
+          }
+        });
+      } else {
+        this.$toast({
+          message: "不合法输入!",
+          position: "bottom",
+        });
+        return false;
+      }
+    },
   },
 };
 </script>
