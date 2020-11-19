@@ -14,8 +14,8 @@
       <inputTemplate
         type="password"
         placeholder="请输入密码"
-        errMes="密码不符合，请输入8-16位字符"
-        :rule="/^.{8,16}$/"
+        errMes="密码不符合，请输入3-16位字符"
+        :rule="/^.{3,16}$/"
         @get-value="getPassWord"
       ></inputTemplate>
     </div>
@@ -49,7 +49,27 @@ export default {
       this.passWord = val;
     },
     login() {
-      console.log(this.userName, this.passWord);
+      this.$axios({
+        method: "post",
+        url: "http://157.122.54.189:9083/login",
+        data: {
+          username: this.userName,
+          password: this.passWord,
+        },
+      }).then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          this.$toast({
+            message: res.data.message,
+            position: "bottom",
+          });
+        }
+        if (res.data.message == "登录成功") {
+          setTimeout(() => {
+            this.$router.push("/index");
+          }, 500);
+        }
+      });
     },
   },
 };

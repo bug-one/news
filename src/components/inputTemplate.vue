@@ -5,7 +5,6 @@
       :type="type"
       :placeholder="placeholder"
       v-model="value"
-      @change="$emit('get-value', value)"
       @blur="tips"
     />
   </div>
@@ -23,22 +22,23 @@ export default {
   methods: {
     tips() {
       if (!this.isOk) {
-        alert(this.errMes);
+        this.$toast({
+          message: this.errMes,
+          position: "bottom",
+        });
       }
     },
   },
   watch: {
     value(newValue) {
+      this.$emit("get-value", newValue);
       const pattern = this.rule;
       if (pattern.test(newValue)) {
-        console.log("合法");
         this.isOk = true;
       } else {
-        console.log(this.errMes);
         this.isOk = false;
       }
       if (newValue.length == 0) {
-        console.log(1);
         this.isOk = true;
       }
     },
@@ -56,6 +56,7 @@ input {
   border: 1px solid rgb(255, 46, 92);
   background-color: rgb(255, 248, 250);
   outline: none;
+  transition: all 1s;
 }
 .error {
   box-shadow: 0 0 9px -1px rgb(255, 46, 92);
