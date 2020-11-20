@@ -2,7 +2,7 @@
   <div id="user">
     <div class="toEdit">
       <div class="userPic">
-        <img src="../assets/默认头像.png" alt="q12312311ssdfsdfs" />
+        <img src="../assets/默认头像.png" alt="" />
       </div>
       <div class="userMes">
         <div class="name">
@@ -34,7 +34,7 @@ export default {
 <style lang="less" scoped>
 #user {
   background-color: #f2f2f2;
-  height: 100vh;
+  min-height: 100vh;
 }
 .toEdit {
   display: flex;

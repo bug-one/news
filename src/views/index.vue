@@ -5,7 +5,7 @@
         <i class="iconfont iconnew"></i>
       </div>
       <div class="search"><i class="iconfont iconsearch"></i>搜索新闻</div>
-      <div class="user">
+      <div class="user" @click="toUser">
         <i class="iconfont iconwode"></i>
       </div>
     </div>
@@ -45,7 +45,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    toUser() {
+      this.$router.push("user");
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

@@ -30,6 +30,7 @@
 <script>
 import inputTemplate from "../components/InputTemplate";
 import buttonTemplate from "../components/ButtonTemplate";
+import { Toast } from "vant";
 export default {
   components: {
     inputTemplate,
@@ -84,7 +85,7 @@ export default {
 <style lang="less" scoped>
 #login {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   background-color: #eee;
   .title {
     width: 100vw;
