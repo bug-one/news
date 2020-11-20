@@ -1,6 +1,6 @@
 <template>
   <div id="user">
-    <div class="toEdit">
+    <div class="toEdit" @click="toEdit">
       <div class="userPic">
         <img
           v-if="userMes.head_img == ''"
@@ -75,6 +75,9 @@ export default {
         position: "bottom",
       });
       this.$router.replace("index");
+    },
+    toEdit() {
+      this.$router.push("userEdit");
     },
   },
 };

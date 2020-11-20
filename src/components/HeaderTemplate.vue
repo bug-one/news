@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <div class="back">
+    <div class="back" @click="$emit('click')">
       <i class="iconfont iconjiantou"></i>
     </div>
     <div class="title">{{ title }}</div>
