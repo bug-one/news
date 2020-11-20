@@ -56,7 +56,7 @@ export default {
             message: "验证失败，请重新登录哦！",
             position: "bottom",
           });
-          this.$router.push("login");
+          this.$router.replace("login");
         }
       })
       .catch((err) => {
