@@ -1,7 +1,7 @@
 <template>
   <div id="login">
     <div class="title">
-      <span class="close iconfont iconicon-test"></span>
+      <span class="close iconfont iconicon-test" @click="close"></span>
     </div>
     <span class="logo iconfont iconnew"></span>
     <div class="userMessage">
@@ -77,11 +77,12 @@ export default {
           const { token, user } = res.data.data;
           localStorage.setItem("token", token);
           localStorage.setItem("userId", user.id);
-          setTimeout(() => {
-            this.$router.push("/index");
-          }, 500);
+          this.$router.push("/index");
         }
       });
+    },
+    close() {
+      this.$router.go(-1);
     },
   },
 };

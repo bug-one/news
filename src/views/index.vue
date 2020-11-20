@@ -49,12 +49,6 @@ export default {
   methods: {
     toUser() {
       this.$router.push("user").catch((err) => {});
-      if (localStorage.getItem("token") == null) {
-        this.$toast({
-          message: "请先登录哦",
-          position: "bottom",
-        });
-      }
     },
   },
 };

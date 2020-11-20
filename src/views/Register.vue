@@ -1,7 +1,7 @@
 <template>
   <div id="register">
     <div class="title">
-      <span class="close iconfont iconicon-test"></span>
+      <span class="close iconfont iconicon-test" @click="close"></span>
     </div>
     <span class="logo iconfont iconnew"></span>
     <div class="userMessage">
@@ -115,6 +115,9 @@ export default {
         });
         return false;
       }
+    },
+    close() {
+      this.$router.go(-1);
     },
   },
 };
