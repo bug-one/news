@@ -10,6 +10,7 @@
         errMes="用户名不符合，请输入3-8位字符"
         :rule="/^.{3,8}$/"
         @get-value="getUserName"
+        use="login"
       ></inputTemplate>
       <inputTemplate
         type="password"
@@ -17,6 +18,7 @@
         errMes="密码不符合，请输入3-16位字符"
         :rule="/^.{3,16}$/"
         @get-value="getPassWord"
+        use="login"
       ></inputTemplate>
     </div>
     <buttonTemplate

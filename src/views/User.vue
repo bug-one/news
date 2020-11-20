@@ -47,7 +47,6 @@ export default {
     width: 70 / 360 * 100vw;
     height: 70 / 360 * 100vw;
     border-radius: 35 / 360 * 100vw;
-    background: #6cf;
     margin: 0 2vw;
     overflow: hidden;
     img {

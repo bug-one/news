@@ -1,6 +1,13 @@
 <template>
   <div>
     <input
+      v-if="use == 'login'"
+      :type="type"
+      :placeholder="placeholder"
+      v-model="value"
+    />
+    <input
+      v-else
       :class="{ error: !isOk }"
       :type="type"
       :placeholder="placeholder"
@@ -12,7 +19,7 @@
 
 <script>
 export default {
-  props: ["placeholder", "type", "rule", "errMes"],
+  props: ["placeholder", "type", "rule", "errMes", "use"],
   data() {
     return {
       value: "",
