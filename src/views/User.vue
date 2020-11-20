@@ -24,7 +24,8 @@
     <toSetTemplate title="我的关注" description="关注的用户" />
     <toSetTemplate title="我的跟帖" description="跟帖/回复" />
     <toSetTemplate title="我的收藏" description="文章/视频" />
-    <toSetTemplate title="设置" description="" />
+    <toSetTemplate title="设置" />
+    <toSetTemplate title="退出" @click.native="outlogin" />
   </div>
 </template>
 
@@ -50,7 +51,6 @@ export default {
       .then((res) => {
         if (res.data.message == "获取成功") {
           this.userMes = res.data.data;
-          console.log(this.userMes);
         } else {
           this.$toast({
             message: "验证失败，请重新登录哦！",
@@ -65,6 +65,17 @@ export default {
           position: "bottom",
         });
       });
+  },
+  methods: {
+    outlogin() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("userId");
+      this.$toast({
+        message: "已退出登录",
+        position: "bottom",
+      });
+      this.$router.replace("index");
+    },
   },
 };
 </script>
