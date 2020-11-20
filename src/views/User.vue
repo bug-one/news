@@ -2,12 +2,18 @@
   <div id="user">
     <div class="toEdit">
       <div class="userPic">
-        <img src="../assets/默认头像.png" alt="" />
+        <img
+          v-if="userMes.head_img == ''"
+          src="../assets/默认头像.png"
+          alt=""
+        />
+        <img v-else :src="userMes.head_img" alt="" />
       </div>
       <div class="userMes">
         <div class="name">
-          <i class="iconfont iconxingbienan"></i>
-          蔡鹿晗
+          <i v-if="userMes.gender === 1" class="iconfont iconxingbienan"></i>
+          <i v-else class="iconfont iconxingbienv"></i>
+          {{ userMes.nickname }}
         </div>
         <div class="date">2019-10-10</div>
       </div>
@@ -25,8 +31,40 @@
 <script>
 import toSetTemplate from "../components/ToSetTemplate";
 export default {
+  data() {
+    return {
+      userMes: {},
+    };
+  },
   components: {
     toSetTemplate,
+  },
+  mounted() {
+    const id = localStorage.getItem("userId");
+    const token = localStorage.getItem("token");
+    this.$axios({
+      method: "get",
+      headers: { authorization: token },
+      url: `http://157.122.54.189:9083/user/${id}`,
+    })
+      .then((res) => {
+        if (res.data.message == "获取成功") {
+          this.userMes = res.data.data;
+          console.log(this.userMes);
+        } else {
+          this.$toast({
+            message: "验证失败，请重新登录哦！",
+            position: "bottom",
+          });
+          this.$router.push("login");
+        }
+      })
+      .catch((err) => {
+        this.$toast({
+          message: "服务器繁忙，请稍后再试哦！",
+          position: "bottom",
+        });
+      });
   },
 };
 </script>

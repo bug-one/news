@@ -74,6 +74,9 @@ export default {
           });
         }
         if (res.data.message == "登录成功") {
+          const { token, user } = res.data.data;
+          localStorage.setItem("token", token);
+          localStorage.setItem("userId", user.id);
           setTimeout(() => {
             this.$router.push("/index");
           }, 500);
