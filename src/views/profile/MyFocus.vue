@@ -1,6 +1,6 @@
 <template>
   <div id="myFocus">
-    <headerTemplate title="我的关注" @click="back" />
+    <headerTemplate title="我的关注" />
     <focusUserTemplate nickName="流连忘返" />
   </div>
 </template>
@@ -13,11 +13,7 @@ export default {
     headerTemplate,
     focusUserTemplate,
   },
-  methods: {
-    back() {
-      this.$router.go(-1);
-    },
-  },
+  methods: {},
 };
 </script>
 

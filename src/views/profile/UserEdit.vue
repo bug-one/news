@@ -1,6 +1,6 @@
 <template>
   <div id="userEdit">
-    <headerTemplate title="编辑资料" @click="back" />
+    <headerTemplate title="编辑资料" />
     <div class="userPic">
       <img src="@/assets/默认头像.png" alt="" />
     </div>
@@ -18,11 +18,7 @@ export default {
     headerTemplate,
     toSetTemplate,
   },
-  methods: {
-    back() {
-      this.$router.go(-1);
-    },
-  },
+  methods: {},
 };
 </script>
 

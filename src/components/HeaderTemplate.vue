@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <div class="back" @click="$emit('click')">
+    <div class="back" @click="$router.back()">
       <i class="iconfont iconjiantou"></i>
     </div>
     <div class="title">{{ title }}</div>
