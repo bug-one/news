@@ -61,7 +61,7 @@ export default {
       }
       this.$axios({
         method: "post",
-        url: "http://157.122.54.189:9083/login",
+        url: "/login",
         data: {
           username: this.userName,
           password: this.passWord,
