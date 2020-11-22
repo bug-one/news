@@ -67,16 +67,14 @@ export default {
           password: this.passWord,
         },
       }).then((res) => {
-        if (res.status === 200) {
-          this.$toast({
-            message: res.data.message,
-            position: "bottom",
-          });
-        }
         if (res.data.message == "登录成功") {
           const { token, user } = res.data.data;
           localStorage.setItem("token", token);
           localStorage.setItem("userId", user.id);
+          this.$toast({
+            message: res.data.message,
+            position: "bottom",
+          });
           this.$router.push("/index");
         }
       });

@@ -52,12 +52,6 @@ export default {
       .then((res) => {
         if (res.data.message == "获取成功") {
           this.userMes = res.data.data;
-        } else {
-          this.$toast({
-            message: "验证失败，请重新登录哦！",
-            position: "bottom",
-          });
-          this.$router.replace("login");
         }
       })
       .catch((err) => {

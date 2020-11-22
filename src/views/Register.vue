@@ -96,16 +96,12 @@ export default {
             nickname: this.nickname,
           },
         }).then((res) => {
-          if (res.status === 200) {
+          if (res.data.message == "注册成功") {
             this.$toast({
               message: res.data.message,
               position: "bottom",
             });
-            if (res.data.message == "注册成功") {
-              setTimeout(() => {
-                this.$router.push("/login");
-              }, 500);
-            }
+            this.$router.push("/login");
           }
         });
       } else {
