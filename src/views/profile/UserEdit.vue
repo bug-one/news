@@ -2,11 +2,15 @@
   <div id="userEdit">
     <headerTemplate title="编辑资料" />
     <div class="userPic">
-      <img src="@/assets/默认头像.png" alt="" />
+      <img v-if="userInfo.head_img == ''" src="@/assets/默认头像.png" alt="" />
+      <img v-else :src="$axios.defaults.baseURL + userInfo.head_img" alt="" />
     </div>
-    <toSetTemplate title="昵称" description="火星网友" />
+    <toSetTemplate title="昵称" :description="userInfo.nickname" />
     <toSetTemplate title="密码" description="******" />
-    <toSetTemplate title="性别" description="男" />
+    <toSetTemplate
+      title="性别"
+      :description="userInfo.gender == 1 ? '男孩子' : '女孩子'"
+    />
   </div>
 </template>
 
@@ -14,11 +18,36 @@
 import headerTemplate from "@/components/HeaderTemplate";
 import toSetTemplate from "@/components/ToSetTemplate";
 export default {
+  data() {
+    return {
+      userInfo: {},
+    };
+  },
   components: {
     headerTemplate,
     toSetTemplate,
   },
   methods: {},
+  created() {
+    const id = localStorage.getItem("userId");
+    const token = localStorage.getItem("token");
+    this.$axios({
+      method: "get",
+      headers: { authorization: token },
+      url: `/user/${id}`,
+    })
+      .then((res) => {
+        if (res.data.message == "获取成功") {
+          this.userInfo = res.data.data;
+        }
+      })
+      .catch((err) => {
+        this.$toast({
+          message: "服务器繁忙，请稍后再试哦！",
+          position: "bottom",
+        });
+      });
+  },
 };
 </script>
 
