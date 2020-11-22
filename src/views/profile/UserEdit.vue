@@ -5,12 +5,26 @@
       <img v-if="userInfo.head_img == ''" src="@/assets/默认头像.png" alt="" />
       <img v-else :src="$axios.defaults.baseURL + userInfo.head_img" alt="" />
     </div>
-    <toSetTemplate title="昵称" :description="userInfo.nickname" />
+    <toSetTemplate
+      title="昵称"
+      :description="userInfo.nickname"
+      @click.native="setNickName"
+    />
     <toSetTemplate title="密码" description="******" />
     <toSetTemplate
       title="性别"
       :description="userInfo.gender == 1 ? '男孩子' : '女孩子'"
     />
+    <van-dialog
+      v-model="show"
+      title="修改昵称"
+      show-cancel-button
+      @confirm="changeNickName"
+    >
+      <van-cell-group>
+        <van-field v-model="value" placeholder="输入昵称" />
+      </van-cell-group>
+    </van-dialog>
   </div>
 </template>
 
@@ -21,32 +35,60 @@ export default {
   data() {
     return {
       userInfo: {},
+      show: false,
+      value: "",
     };
   },
   components: {
     headerTemplate,
     toSetTemplate,
   },
-  methods: {},
-  created() {
-    const id = localStorage.getItem("userId");
-    const token = localStorage.getItem("token");
-    this.$axios({
-      method: "get",
-      headers: { authorization: token },
-      url: `/user/${id}`,
-    })
-      .then((res) => {
-        if (res.data.message == "获取成功") {
-          this.userInfo = res.data.data;
-        }
+  methods: {
+    getUserInfo() {
+      const id = localStorage.getItem("userId");
+      const token = localStorage.getItem("token");
+      this.$axios({
+        method: "get",
+        headers: { authorization: token },
+        url: `/user/${id}`,
       })
-      .catch((err) => {
+        .then((res) => {
+          if (res.data.message == "获取成功") {
+            this.userInfo = res.data.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast({
+            message: "服务器繁忙，请稍后再试哦！",
+            position: "bottom",
+          });
+        });
+    },
+    setNickName() {
+      this.show = true;
+    },
+    changeNickName() {
+      if (this.value == "") {
         this.$toast({
-          message: "服务器繁忙，请稍后再试哦！",
+          message: "想个名字吧！",
           position: "bottom",
         });
+        return;
+      }
+      const id = localStorage.getItem("userId");
+      const token = localStorage.getItem("token");
+      this.$axios({
+        method: "post",
+        headers: { authorization: token },
+        url: "/user_update/" + id,
+        data: { nickname: this.value },
+      }).then((res) => {
+        this.getUserInfo();
       });
+    },
+  },
+  created() {
+    this.getUserInfo();
   },
 };
 </script>
