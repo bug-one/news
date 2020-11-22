@@ -15,8 +15,10 @@ const routes = [
   { path: '/', redirect: '/index' },
   { path: '/login', component: Login },
   { path: '/register', component: Register },
-  { path: '/user', component: User },
-  { path: '/userEdit', component: UserEdit },
+  {
+    path: '/user', component: User, meta: { needAuth: true }
+  },
+  { path: '/userEdit', component: UserEdit, meta: { needAuth: true } },
   { path: '/myFocus', component: MyFocus },
 ]
 
@@ -25,7 +27,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.path == '/user' && localStorage.getItem('token') == null) {
+  if (to.meta.needAuth == true && localStorage.getItem('token') == null) {
     router.push('login').catch(err => { });
   }
   next();
