@@ -18,6 +18,7 @@
     <toSetTemplate
       title="性别"
       :description="userInfo.gender == 1 ? '男孩子' : '女孩子'"
+      @click.native="isShowGender = true"
     />
     <van-dialog
       v-model="isShowNickName"
@@ -50,6 +51,12 @@
         />
       </van-cell-group>
     </van-dialog>
+    <van-action-sheet
+      cancel-text="取消"
+      v-model="isShowGender"
+      :actions="actions"
+      @select="onSelect"
+    />
   </div>
 </template>
 
@@ -62,8 +69,13 @@ export default {
       userInfo: {},
       isShowNickName: false,
       isShowPassWord: false,
+      isShowGender: false,
       newNickName: "",
       newPassWord: "",
+      actions: [
+        { name: "男孩子", gender: "1" },
+        { name: "女孩子", gender: "0" },
+      ],
     };
   },
   components: {
@@ -138,6 +150,11 @@ export default {
         position: "bottom",
       });
       this.newPassWord = "";
+    },
+    onSelect(obj) {
+      const data = { gender: obj.gender };
+      this.setRes(data);
+      this.isShowGender = false;
     },
   },
   created() {

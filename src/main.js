@@ -9,7 +9,6 @@ Vue.use(Vant);
 import axios from 'axios';
 axios.defaults.baseURL = 'http://157.122.54.189:9083';
 axios.interceptors.request.use(config => {
-  console.log(config);
   if (!config.headers.authorization && localStorage.getItem('token')) {
     config.headers.authorization = localStorage.getItem('token');
   }
