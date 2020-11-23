@@ -19,7 +19,7 @@ const routes = [
     path: '/user', component: User, meta: { needAuth: true }
   },
   { path: '/userEdit', component: UserEdit, meta: { needAuth: true } },
-  { path: '/myFocus', component: MyFocus },
+  { path: '/myFocus', component: MyFocus, meta: { needAuth: true } },
 ]
 
 const router = new VueRouter({
