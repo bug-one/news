@@ -8,7 +8,7 @@
     <toSetTemplate
       title="昵称"
       :description="userInfo.nickname"
-      @click.native="setNickName"
+      @click.native="show = true"
     />
     <toSetTemplate title="密码" description="******" />
     <toSetTemplate
@@ -22,7 +22,12 @@
       @confirm="changeNickName"
     >
       <van-cell-group>
-        <van-field v-model="value" placeholder="输入昵称" />
+        <van-field
+          v-model="value"
+          placeholder="输入昵称"
+          maxlength="8"
+          input-align="center"
+        />
       </van-cell-group>
     </van-dialog>
   </div>
@@ -63,9 +68,6 @@ export default {
             position: "bottom",
           });
         });
-    },
-    setNickName() {
-      this.show = true;
     },
     changeNickName() {
       if (this.value == "") {
