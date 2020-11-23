@@ -73,10 +73,8 @@ export default {
   methods: {
     getUserInfo() {
       const id = localStorage.getItem("userId");
-      const token = localStorage.getItem("token");
       this.$axios({
         method: "get",
-        headers: { authorization: token },
         url: `/user/${id}`,
       })
         .then((res) => {
@@ -94,7 +92,6 @@ export default {
     setRes(data) {
       this.$axios({
         method: "post",
-        headers: { authorization: localStorage.getItem("token") },
         url: "/user_update/" + localStorage.getItem("userId"),
         data,
       }).then((res) => {

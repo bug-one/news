@@ -43,10 +43,8 @@ export default {
   },
   mounted() {
     const id = localStorage.getItem("userId");
-    const token = localStorage.getItem("token");
     this.$axios({
       method: "get",
-      headers: { authorization: token },
       url: `/user/${id}`,
     })
       .then((res) => {
