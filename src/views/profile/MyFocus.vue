@@ -14,7 +14,7 @@
         <div class="nickName">{{ item.nickname }}</div>
         <div class="date">2019-10-10</div>
       </div>
-      <div class="cancelBtn">取消关注</div>
+      <div class="cancelBtn" @click="unfollow(item.id)">取消关注</div>
     </div>
   </div>
 </template>
@@ -30,13 +30,30 @@ export default {
   components: {
     headerTemplate,
   },
-  methods: {},
+  methods: {
+    unfollow(id) {
+      this.$axios({
+        url: "/user_unfollow/" + id,
+      }).then((res) => {
+        if (res.data.message == "取消关注成功") {
+          this.$toast({
+            message: res.data.message,
+            position: "bottom",
+          });
+          this.loadPage();
+        }
+      });
+    },
+    loadPage() {
+      this.$axios({
+        url: "/user_follows",
+      }).then((res) => {
+        this.followInfo = res.data.data;
+      });
+    },
+  },
   created() {
-    this.$axios({
-      url: "/user_follows",
-    }).then((res) => {
-      this.followInfo = res.data.data;
-    });
+    this.loadPage();
   },
 };
 </script>
@@ -61,6 +78,7 @@ export default {
     img {
       width: 100%;
       height: 100%;
+      object-fit: cover;
     }
   }
   .userMes {
