@@ -26,6 +26,9 @@
       class="toLogin"
       value="登录"
     ></buttonTemplate>
+    <div class="toRegister" @click="() => $router.push('register')">
+      还未有账号？去注册
+    </div>
   </div>
 </template>
 
@@ -116,7 +119,12 @@ export default {
   .toLogin {
     width: 80vw;
     // display: block;
-    margin: 80px auto;
+    margin: 20vw auto 10vw;
+  }
+  .toRegister {
+    text-align: center;
+    color: #666;
+    font-size: 12 / 360 * 100vw;
   }
 }
 </style>
