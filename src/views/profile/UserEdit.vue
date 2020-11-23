@@ -1,9 +1,21 @@
 <template>
   <div id="userEdit">
     <headerTemplate title="编辑资料" />
-    <div class="userPic">
-      <img v-if="userInfo.head_img == ''" src="@/assets/默认头像.png" alt="" />
-      <img v-else :src="$axios.defaults.baseURL + userInfo.head_img" alt="" />
+    <div class="pic">
+      <van-uploader :after-read="afterRead">
+        <img
+          class="userPic"
+          v-if="userInfo.head_img == ''"
+          src="@/assets/默认头像.png"
+          alt=""
+        />
+        <img
+          class="userPic"
+          v-else
+          :src="$axios.defaults.baseURL + userInfo.head_img"
+          alt=""
+        />
+      </van-uploader>
     </div>
     <toSetTemplate
       title="昵称"
@@ -156,6 +168,18 @@ export default {
       this.setRes(data);
       this.isShowGender = false;
     },
+    afterRead(obj) {
+      const formData = new FormData();
+      formData.append("file", obj.file);
+      this.$axios({
+        method: "post",
+        url: "/upload",
+        data: formData,
+      }).then((res) => {
+        const data = { head_img: res.data.data.url };
+        this.setRes(data);
+      });
+    },
   },
   created() {
     this.getUserInfo();
@@ -167,15 +191,15 @@ export default {
 #userEdit {
   background-color: #f2f2f2;
   min-height: 100vh;
-  .userPic {
-    width: 70 / 360 * 100vw;
-    height: 70 / 360 * 100vw;
-    border-radius: 35 / 360 * 100vw;
-    margin: 12vw auto;
-    overflow: hidden;
-    img {
-      width: 100%;
-      height: 100%;
+  .pic {
+    text-align: center;
+    .userPic {
+      text-align: center;
+      width: 70 / 360 * 100vw;
+      height: 70 / 360 * 100vw;
+      border-radius: 35 / 360 * 100vw;
+      margin: 12vw auto;
+      object-fit: cover;
     }
   }
 }
