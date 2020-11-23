@@ -8,23 +8,43 @@
     <toSetTemplate
       title="昵称"
       :description="userInfo.nickname"
-      @click.native="show = true"
+      @click.native="isShowNickName = true"
     />
-    <toSetTemplate title="密码" description="******" />
+    <toSetTemplate
+      title="密码"
+      description="******"
+      @click.native="isShowPassWord = true"
+    />
     <toSetTemplate
       title="性别"
       :description="userInfo.gender == 1 ? '男孩子' : '女孩子'"
     />
     <van-dialog
-      v-model="show"
+      v-model="isShowNickName"
       title="修改昵称"
       show-cancel-button
       @confirm="changeNickName"
     >
       <van-cell-group>
         <van-field
-          v-model="value"
+          v-model="newNickName"
           placeholder="输入昵称"
+          maxlength="8"
+          input-align="center"
+        />
+      </van-cell-group>
+    </van-dialog>
+
+    <van-dialog
+      v-model="isShowPassWord"
+      title="修改密码"
+      show-cancel-button
+      @confirm="changePassWord"
+    >
+      <van-cell-group>
+        <van-field
+          v-model="newPassWord"
+          placeholder="输入密码"
           maxlength="8"
           input-align="center"
         />
@@ -40,8 +60,10 @@ export default {
   data() {
     return {
       userInfo: {},
-      show: false,
-      value: "",
+      isShowNickName: false,
+      isShowPassWord: false,
+      newNickName: "",
+      newPassWord: "",
     };
   },
   components: {
@@ -69,24 +91,56 @@ export default {
           });
         });
     },
+    setRes(data) {
+      this.$axios({
+        method: "post",
+        headers: { authorization: localStorage.getItem("token") },
+        url: "/user_update/" + localStorage.getItem("userId"),
+        data,
+      }).then((res) => {
+        this.getUserInfo();
+      });
+    },
     changeNickName() {
-      if (this.value == "") {
+      const data = { nickname: this.newNickName };
+      if (this.newNickName == "") {
         this.$toast({
           message: "想个名字吧！",
           position: "bottom",
         });
         return;
       }
-      const id = localStorage.getItem("userId");
-      const token = localStorage.getItem("token");
-      this.$axios({
-        method: "post",
-        headers: { authorization: token },
-        url: "/user_update/" + id,
-        data: { nickname: this.value },
-      }).then((res) => {
-        this.getUserInfo();
+      this.setRes(data);
+      this.$toast({
+        message: "修改昵称成功",
+        position: "bottom",
       });
+      this.newNickName = "";
+    },
+    changePassWord() {
+      const pattern = /^.{3,16}$/;
+      const data = { password: this.newPassWord };
+      if (this.newPassWord == "") {
+        this.$toast({
+          message: "密码不能为空",
+          position: "bottom",
+        });
+        return;
+      }
+      if (!pattern.test(this.newPassWord)) {
+        this.$toast({
+          message: "密码不符合，请输入3-16位字符",
+          position: "bottom",
+        });
+        this.newPassWord = "";
+        return;
+      }
+      this.setRes(data);
+      this.$toast({
+        message: "修改密码成功",
+        position: "bottom",
+      });
+      this.newPassWord = "";
     },
   },
   created() {
