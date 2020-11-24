@@ -2,26 +2,26 @@
   <div class="index">
     <IndexHeader />
     <van-tabs v-model="active">
-      <van-tab
-        :title="item.name"
-        v-for="(item, index) in categoryList"
-        :key="item.id"
-        >内容{{ index + 1 }}</van-tab
-      >
+      <van-tab :title="item.name" v-for="item in categoryList" :key="item.id">
+        <PostList :postList="postList" />
+      </van-tab>
     </van-tabs>
   </div>
 </template>
 
 <script>
 import IndexHeader from "../components/IndexHeader";
+import PostList from "../components/PostList";
 export default {
   components: {
     IndexHeader,
+    PostList,
   },
   data() {
     return {
       active: 0,
       categoryList: [],
+      postList: [],
     };
   },
   methods: {
@@ -35,7 +35,13 @@ export default {
     }).then((res) => {
       if (res.status == 200) {
         this.categoryList = res.data.data;
-        console.log(this.categoryList);
+      }
+    });
+    this.$axios({
+      url: "/post",
+    }).then((res) => {
+      if (res.status == 200) {
+        this.postList = res.data.data;
       }
     });
   },
