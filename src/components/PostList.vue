@@ -11,7 +11,7 @@
           <span class="des">{{ list.comment_length }}跟帖</span>
         </div>
       </div>
-      <img :src="list.cover[0].url" alt="" />
+      <img :src="list.cover[0].url | srcUrl" alt="" />
     </div>
 
     <div v-if="list.type == 1 && list.cover.length >= 3" class="multipleType">
@@ -19,9 +19,9 @@
         {{ list.title }}
       </div>
       <div class="pic">
-        <img :src="list.cover[0].url" alt="" />
-        <img :src="list.cover[1].url" alt="" />
-        <img :src="list.cover[2].url" alt="" />
+        <img :src="list.cover[0].url | srcUrl" alt="" />
+        <img :src="list.cover[1].url | srcUrl" alt="" />
+        <img :src="list.cover[2].url | srcUrl" alt="" />
       </div>
       <div class="userMes">
         <span class="user">{{ list.user.nickname }}</span>
@@ -32,7 +32,7 @@
     <div v-if="list.type == 2 && list.cover.length > 0" class="videoType">
       <div class="title">{{ list.title }}</div>
       <div class="video">
-        <img :src="list.cover[0].url" alt="" />
+        <img :src="list.cover[0].url | srcUrl" alt="" />
         <span class="iconfont iconshipin"></span>
       </div>
       <div class="userMes">

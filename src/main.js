@@ -32,6 +32,13 @@ axios.interceptors.response.use(res => {
 })
 Vue.prototype.$axios = axios;
 
+Vue.filter('srcUrl', (url) => {
+  if (url.indexOf('http') > -1) {
+    return url
+  } else {
+    return axios.defaults.baseURL + url;
+  }
+})
 
 Vue.config.productionTip = false;
 
