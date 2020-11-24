@@ -3,7 +3,7 @@
     <IndexHeader />
     <van-tabs v-model="active">
       <van-tab :title="item.name" v-for="item in categoryList" :key="item.id">
-        <PostList :postList="postList" />
+        <PostList v-for="list in postList" :key="list.id" :list="list" />
       </van-tab>
     </van-tabs>
   </div>
@@ -42,6 +42,7 @@ export default {
     }).then((res) => {
       if (res.status == 200) {
         this.postList = res.data.data;
+        console.log(this.postList);
       }
     });
   },
