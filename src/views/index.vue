@@ -8,7 +8,7 @@
       line-width="8vw"
     >
       <van-tab :title="item.name" v-for="item in categoryList" :key="item.id">
-        <PostList v-for="list in postList" :key="list.id" :list="list" />
+        <PostList v-for="list in item.postList" :key="list.id" :list="list" />
       </van-tab>
       <div class="mask">
         <div class="iconfont iconjiantou"></div>
@@ -29,7 +29,6 @@ export default {
     return {
       active: 0,
       categoryList: [],
-      postList: [],
     };
   },
   methods: {
@@ -41,7 +40,7 @@ export default {
         url: "/post?category=" + this.categoryList[this.active].id,
       }).then((res) => {
         if (res.status == 200) {
-          this.postList = res.data.data;
+          this.categoryList[this.active].postList = res.data.data;
         }
       });
     },
@@ -51,14 +50,22 @@ export default {
       url: "/category",
     }).then((res) => {
       if (res.status == 200) {
-        this.categoryList = res.data.data;
+        this.categoryList = res.data.data.map((item) => {
+          return {
+            ...item,
+            postList: [],
+          };
+        });
+        // console.log(this.categoryList);
         this.getPostList();
       }
     });
   },
   watch: {
     active(newActive) {
-      this.getPostList();
+      if (this.categoryList[this.active].postList.length == 0) {
+        this.getPostList();
+      }
     },
   },
 };
