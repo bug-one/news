@@ -8,7 +8,15 @@
       line-width="8vw"
     >
       <van-tab :title="item.name" v-for="item in categoryList" :key="item.id">
-        <PostList v-for="list in item.postList" :key="list.id" :list="list" />
+        <van-list
+          v-model="item.loading"
+          :finished="item.finished"
+          finished-text="没有更多了"
+          @load="onLoad"
+          :immediate-check="false"
+        >
+          <PostList v-for="list in item.postList" :key="list.id" :list="list" />
+        </van-list>
       </van-tab>
       <div class="mask">
         <div class="iconfont iconjiantou"></div>
@@ -36,13 +44,28 @@ export default {
       this.$router.push("user").catch((err) => {});
     },
     getPostList() {
+      const cateGory = this.categoryList[this.active];
       this.$axios({
-        url: "/post?category=" + this.categoryList[this.active].id,
+        url: "/post",
+        params: {
+          category: cateGory.id,
+          pageIndex: cateGory.pageIndex,
+          pageSize: cateGory.pageSize,
+        },
       }).then((res) => {
         if (res.status == 200) {
-          this.categoryList[this.active].postList = res.data.data;
+          cateGory.postList = [...cateGory.postList, ...res.data.data];
+          cateGory.loading = false;
+          if (res.data.data.length < cateGory.pageSize) {
+            cateGory.finished = true;
+          }
         }
       });
+    },
+    onLoad() {
+      const cateGory = this.categoryList[this.active];
+      cateGory.pageIndex += 1;
+      this.getPostList();
     },
   },
   created() {
@@ -54,6 +77,10 @@ export default {
           return {
             ...item,
             postList: [],
+            pageIndex: 1,
+            pageSize: 6,
+            loading: false,
+            finished: false,
           };
         });
         // console.log(this.categoryList);
