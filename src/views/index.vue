@@ -36,6 +36,15 @@ export default {
     toUser() {
       this.$router.push("user").catch((err) => {});
     },
+    getPostList() {
+      this.$axios({
+        url: "/post?category=" + this.categoryList[this.active].id,
+      }).then((res) => {
+        if (res.status == 200) {
+          this.postList = res.data.data;
+        }
+      });
+    },
   },
   created() {
     this.$axios({
@@ -43,16 +52,14 @@ export default {
     }).then((res) => {
       if (res.status == 200) {
         this.categoryList = res.data.data;
+        this.getPostList();
       }
     });
-    this.$axios({
-      url: "/post",
-    }).then((res) => {
-      if (res.status == 200) {
-        this.postList = res.data.data;
-        console.log(this.postList);
-      }
-    });
+  },
+  watch: {
+    active(newActive) {
+      this.getPostList();
+    },
   },
 };
 </script>
