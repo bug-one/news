@@ -1,5 +1,6 @@
 <template>
   <div id="user">
+    <headerTemplate />
     <div class="toEdit" @click="toEdit">
       <div class="userPic">
         <img v-if="userMes.head_img == ''" src="@/assets/默认头像.png" alt="" />
@@ -34,6 +35,7 @@
 </template>
 
 <script>
+import headerTemplate from "@/components/HeaderTemplate";
 import toSetTemplate from "@/components/ToSetTemplate";
 import MyFocusVue from "./MyFocus.vue";
 export default {
@@ -44,6 +46,7 @@ export default {
   },
   components: {
     toSetTemplate,
+    headerTemplate,
   },
   mounted() {
     const id = localStorage.getItem("userId");
