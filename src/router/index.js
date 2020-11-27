@@ -6,6 +6,7 @@ import Register from '../views/Register.vue'
 import User from '../views/profile/User.vue'
 import UserEdit from '../views/profile/UserEdit.vue'
 import MyFocus from '../views/profile/MyFocus.vue'
+import Star from '../views/profile/Star.vue'
 
 
 Vue.use(VueRouter)
@@ -20,6 +21,7 @@ const routes = [
   },
   { path: '/userEdit', component: UserEdit, meta: { needAuth: true } },
   { path: '/myFocus', component: MyFocus, meta: { needAuth: true } },
+  { path: '/star', component: Star }
 ]
 
 const router = new VueRouter({

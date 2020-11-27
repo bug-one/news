@@ -23,8 +23,12 @@
       @click.native="toMyFous"
     />
     <toSetTemplate title="我的跟帖" description="跟帖/回复" />
-    <toSetTemplate title="我的收藏" description="文章/视频" />
-    <toSetTemplate title="设置" />
+    <toSetTemplate
+      title="我的收藏"
+      description="文章/视频"
+      @click.native="$router.push('star')"
+    />
+    <toSetTemplate title="设置" @click.native="$router.push('userEdit')" />
     <toSetTemplate title="退出" @click.native="logout" />
   </div>
 </template>
