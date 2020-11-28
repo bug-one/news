@@ -15,12 +15,7 @@
           @load="onLoad"
           :immediate-check="false"
         >
-          <PostList
-            v-for="list in item.postList"
-            :key="list.id"
-            :list="list"
-            @click.native="$router.push('postDetail/' + list.id)"
-          />
+          <PostList v-for="list in item.postList" :key="list.id" :list="list" />
         </van-list>
       </van-tab>
       <div class="mask">

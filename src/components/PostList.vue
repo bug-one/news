@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @click="$router.push('postDetail/' + list.id)">
     <div
       v-if="list.type == 1 && list.cover.length > 0 && list.cover.length < 3"
       class="siggleType"
