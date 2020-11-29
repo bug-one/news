@@ -17,11 +17,22 @@
       <likeButton :postData="postData" />
     </div>
     <div v-if="postData.type == 2" class="videoPost">
-      <video
-        src="https://video.pearvideo.com/mp4/short/20170722/cont-1115809-10663719-hd.mp4"
-        :poster="postData.cover[0].url | srcUrl"
-        controls
-      ></video>
+      <div class="video">
+        <video
+          ref="video"
+          src="https://video.pearvideo.com/mp4/short/20170722/cont-1115809-10663719-hd.mp4"
+          :poster="postData.cover[0].url | srcUrl"
+          controls
+          @pause="pauseVideo"
+          @play="handleVideo"
+        ></video>
+        <span
+          class="iconfont iconshipin"
+          @click="playVideo"
+          ref="videoBtn"
+        ></span>
+      </div>
+
       <div class="user">
         <img
           v-if="postData.user.head_img"
@@ -60,6 +71,30 @@ export default {
         console.log(res.data.data);
       }
     });
+  },
+  methods: {
+    playVideo() {
+      this.$refs.video.play();
+      this.$refs.videoBtn.classList.add("icon-zantingtingzhi");
+      this.$refs.videoBtn.style.opacity = "0";
+      setTimeout(() => {
+        this.$refs.videoBtn.style.display = "none";
+      }, 600);
+    },
+    pauseVideo() {
+      this.$refs.videoBtn.classList.remove("icon-zantingtingzhi");
+      this.$refs.videoBtn.style.display = "block";
+      setTimeout(() => {
+        this.$refs.videoBtn.style.opacity = "1";
+      }, 100);
+    },
+    handleVideo() {
+      this.$refs.videoBtn.classList.add("icon-zantingtingzhi");
+      this.$refs.videoBtn.style.opacity = "0";
+      setTimeout(() => {
+        this.$refs.videoBtn.style.display = "none";
+      }, 600);
+    },
   },
 };
 </script>
@@ -114,9 +149,33 @@ export default {
 }
 
 .videoPost {
-  video {
-    padding: 0;
-    width: 100vw;
+  .video {
+    display: flex;
+    justify-content: center;
+    // align-items: center;
+    position: relative;
+    video {
+      padding: 0;
+      width: 100vw;
+    }
+    .iconfont {
+      color: #fff;
+      width: 40 / 360 * 100vw;
+      height: 40 / 360 * 100vw;
+      line-height: 40 / 360 * 100vw;
+      background-color: rgba(0, 0, 0, 0.3s);
+      border-radius: 20 / 360 * 100vw;
+      position: absolute;
+      top: 35%;
+      font-size: 30 / 360 * 100vw;
+      text-align: center;
+      display: block;
+      transition: all 0.6s;
+      opacity: 1;
+    }
+    .icon-zantingtingzhi {
+      font-size: 16 / 360 * 100vw;
+    }
   }
   .user {
     display: flex;
