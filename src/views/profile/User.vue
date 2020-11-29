@@ -4,7 +4,12 @@
     <div class="toEdit" @click="toEdit">
       <div class="userPic">
         <img v-if="userMes.head_img == ''" src="@/assets/默认头像.png" alt="" />
-        <img v-else :src="$axios.defaults.baseURL + userMes.head_img" alt="" />
+        <img
+          v-else
+          :src="$axios.defaults.baseURL + userMes.head_img"
+          alt=""
+          @click.stop="preview($axios.defaults.baseURL + userMes.head_img)"
+        />
       </div>
       <div class="userMes">
         <div class="name">
@@ -38,6 +43,7 @@
 import headerTemplate from "@/components/HeaderTemplate";
 import toSetTemplate from "@/components/ToSetTemplate";
 import MyFocusVue from "./MyFocus.vue";
+import { ImagePreview } from "vant";
 export default {
   data() {
     return {
@@ -81,6 +87,10 @@ export default {
     },
     toMyFous() {
       this.$router.push("myFocus");
+    },
+    preview(url) {
+      console.log(1);
+      ImagePreview([url]);
     },
   },
 };
