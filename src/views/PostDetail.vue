@@ -14,7 +14,6 @@
         <div class="date">2019-10-10</div>
       </div>
       <div class="content" v-html="postData.content"></div>
-      <likeButton :postData="postData" />
     </div>
     <div v-if="postData.type == 2" class="videoPost">
       <div class="video">
@@ -44,22 +43,31 @@
         <followButton :postData="postData" />
       </div>
       <div class="title">{{ postData.title }}</div>
-      <likeButton :postData="postData" />
     </div>
+    <likeButton :postData="postData" />
+    <h2 class="comment">精彩跟贴</h2>
+    <commentMain
+      :commentData="comment"
+      v-for="comment in commentList"
+      :key="comment.id"
+    />
   </div>
 </template>
 
 <script>
 import followButton from "../components/FollowButton";
 import likeButton from "../components/LikeButton";
+import commentMain from "../components/comment/Main";
 export default {
   components: {
     followButton,
     likeButton,
+    commentMain,
   },
   data() {
     return {
       postData: {},
+      commentList: [],
     };
   },
   created() {
@@ -68,8 +76,16 @@ export default {
     }).then((res) => {
       if (res.status == 200) {
         this.postData = res.data.data;
-        console.log(res.data.data);
       }
+    });
+    this.$axios({
+      url: "/post_comment/" + this.$route.params.id,
+    }).then((res) => {
+      console.log(res);
+      if (res.data.data.length > 3) {
+        res.data.data.length = 3;
+      }
+      this.commentList = res.data.data;
     });
   },
   methods: {
@@ -204,5 +220,13 @@ export default {
     white-space: nowrap;
     text-overflow: ellipsis;
   }
+}
+
+.comment {
+  font-weight: normal;
+  font-size: 16 / 360 * 100vw;
+  text-align: center;
+  border-top: 4 / 360 * 100vw solid #dfdfdf;
+  line-height: 60 / 360 * 100vw;
 }
 </style>
