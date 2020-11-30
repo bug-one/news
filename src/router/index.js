@@ -8,6 +8,7 @@ import UserEdit from '../views/profile/UserEdit.vue'
 import MyFocus from '../views/profile/MyFocus.vue'
 import Star from '../views/profile/Star.vue'
 import PostDetail from '../views/PostDetail.vue'
+import MoreComment from '../views/MoreComment.vue'
 
 
 Vue.use(VueRouter)
@@ -23,7 +24,8 @@ const routes = [
   { path: '/userEdit', component: UserEdit, meta: { needAuth: true } },
   { path: '/myFocus', component: MyFocus, meta: { needAuth: true } },
   { path: '/star', component: Star },
-  { path: '/postDetail/:id', component: PostDetail }
+  { path: '/postDetail/:id', component: PostDetail },
+  { path: '/moreComment/:id', component: MoreComment }
 ]
 
 const router = new VueRouter({
