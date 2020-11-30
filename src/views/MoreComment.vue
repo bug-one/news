@@ -1,11 +1,18 @@
 <template>
   <div id="moreComment">
     <headerTemplate title="精彩跟帖" />
-    <commentMain
-      :commentData="comment"
-      v-for="comment in commentList"
-      :key="comment.id"
-    />
+    <van-list
+      v-model="loading"
+      :finished="finished"
+      finished-text="没有更多了"
+      @load="onLoad"
+    >
+      <commentMain
+        :commentData="comment"
+        v-for="comment in commentList"
+        :key="comment.id"
+      />
+    </van-list>
   </div>
 </template>
 
@@ -20,14 +27,32 @@ export default {
   data() {
     return {
       commentList: [],
+      loading: false,
+      finished: false,
+      pageIndex: 1,
+      pageSize: 6,
     };
   },
   created() {
-    this.$axios({
-      url: "/post_comment/" + this.$route.params.id,
-    }).then((res) => {
-      this.commentList = res.data.data;
-    });
+    this.getComment();
+  },
+  methods: {
+    getComment() {
+      this.$axios({
+        url: "/post_comment/" + this.$route.params.id,
+        params: { pageIndex: this.pageIndex, pageSize: this.pageSize },
+      }).then((res) => {
+        this.commentList = [...this.commentList, ...res.data.data];
+        this.loading = false;
+        if (res.data.data.length < this.pageSize) {
+          this.finished = true;
+        }
+      });
+    },
+    onLoad() {
+      this.pageIndex++;
+      this.getComment();
+    },
   },
 };
 </script>
