@@ -15,12 +15,24 @@
     </div>
     <div class="activeComment" v-if="isShowTextarea">
       <textarea
+        v-if="nickname"
         name=""
         id=""
         rows="6"
         ref="textarea"
         @blur="hideTextarea"
         v-model="comment"
+        :placeholder="'@' + nickname + ':'"
+      ></textarea>
+      <textarea
+        v-else
+        name=""
+        id=""
+        rows="6"
+        ref="textarea"
+        @blur="hideTextarea"
+        v-model="comment"
+        placeholder="请输入评论哦"
       ></textarea>
       <div class="send">
         <img src="../assets/哆啦A梦.png" alt="" />
@@ -31,12 +43,25 @@
 </template>
 
 <script>
+import eventBus from "../utils/eventBus.js";
 export default {
   data() {
     return {
       isShowTextarea: false,
       comment: "",
+      commentId: "",
+      nickname: "",
     };
+  },
+  created() {
+    eventBus.$on("sendMsg", (msg) => {
+      this.commentId = msg.id;
+      this.nickname = msg.nickname;
+      this.showTextarea();
+    });
+  },
+  destroyed() {
+    eventBus.$off("sendMsg");
   },
   methods: {
     showTextarea() {
@@ -48,7 +73,11 @@ export default {
     },
     hideTextarea() {
       setTimeout(() => {
+        if (!this.comment) {
+          this.commentId = "";
+        }
         this.isShowTextarea = false;
+        this.nickname = "";
         this.$emit("showTextarea", this.isShowTextarea);
       }, 100);
     },
@@ -58,7 +87,7 @@ export default {
         url: "/post_comment/" + this.$route.params.id,
         data: {
           content: this.comment,
-          parent_id: "",
+          parent_id: this.commentId,
         },
       }).then((res) => {
         this.comment = "";

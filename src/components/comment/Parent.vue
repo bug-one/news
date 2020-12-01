@@ -5,7 +5,7 @@
     <div class="userInfo">
       <div class="name">{{ commentData.user.nickname }}</div>
       <div class="date">2小时前</div>
-      <div class="reply">回复</div>
+      <div class="reply" @click="reply">回复</div>
     </div>
     <div class="content">
       {{ commentData.content }}
@@ -14,9 +14,18 @@
 </template>
 
 <script>
+import eventBus from "../../utils/eventBus";
 export default {
   name: "parent",
   props: ["commentData"],
+  methods: {
+    reply() {
+      eventBus.$emit("sendMsg", {
+        id: this.commentData.id,
+        nickname: this.commentData.user.nickname,
+      });
+    },
+  },
 };
 </script>
 
