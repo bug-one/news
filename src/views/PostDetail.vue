@@ -55,12 +55,16 @@
       没有更多评论啦
     </div>
     <div
-      class="moreComment"
+      :class="{
+        moreComment: true,
+        isShowTextarea: isShowTextarea,
+      }"
       v-if="commentList.length == 3"
       @click="$router.push('/moreComment/' + $route.params.id)"
     >
-      更多跟贴
+      更多跟帖
     </div>
+    <commentInput @showTextarea="showTextarea" @isComment="loadComment" />
   </div>
 </template>
 
@@ -68,16 +72,19 @@
 import followButton from "../components/FollowButton";
 import likeButton from "../components/LikeButton";
 import commentMain from "../components/comment/Main";
+import commentInput from "../components/CommentInput";
 export default {
   components: {
     followButton,
     likeButton,
     commentMain,
+    commentInput,
   },
   data() {
     return {
       postData: {},
       commentList: [],
+      isShowTextarea: false,
     };
   },
   created() {
@@ -88,16 +95,19 @@ export default {
         this.postData = res.data.data;
       }
     });
-    this.$axios({
-      url: "/post_comment/" + this.$route.params.id,
-    }).then((res) => {
-      if (res.data.data.length > 3) {
-        res.data.data.length = 3;
-      }
-      this.commentList = res.data.data;
-    });
+    this.loadComment();
   },
   methods: {
+    loadComment() {
+      this.$axios({
+        url: "/post_comment/" + this.$route.params.id,
+      }).then((res) => {
+        if (res.data.data.length > 3) {
+          res.data.data.length = 3;
+        }
+        this.commentList = res.data.data;
+      });
+    },
     playVideo() {
       this.$refs.video.play();
       this.$refs.videoBtn.classList.add("icon-zantingtingzhi");
@@ -119,6 +129,9 @@ export default {
       setTimeout(() => {
         this.$refs.videoBtn.style.display = "none";
       }, 600);
+    },
+    showTextarea(val) {
+      this.isShowTextarea = val;
     },
   },
 };
@@ -253,7 +266,10 @@ export default {
     line-height: 30 / 360 * 100vw;
     border: 1px solid #999;
     color: #666;
-    margin: 20 / 360 * 100vw auto;
+    margin: 20 / 360 * 100vw auto 68 / 360 * 100vw;
+    &.isShowTextarea {
+      margin: 20 / 360 * 100vw auto 160 / 360 * 100vw;
+    }
   }
 }
 </style>
