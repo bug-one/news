@@ -16,6 +16,12 @@
           <span class="iconfont iconjiantou1"></span>
         </div>
       </div>
+      <div class="moreComment" @click="moreComment" v-if="isMoreComment">
+        更多跟帖
+      </div>
+      <div class="unMoreComment" @click="moreComment" v-else>
+        没有更多了哦！
+      </div>
     </div>
   </div>
 </template>
@@ -26,20 +32,37 @@ export default {
   data() {
     return {
       commentList: [],
+      pageIndex: 1,
+      pageSize: 10,
+      isMoreComment: true,
     };
   },
   components: {
     headerTemplate,
   },
   created() {
-    this.$axios({
-      url: "/user_comments",
-      params: { pageIndex: 1 },
-    }).then((res) => {
-      if (res.status == 200) {
-        this.commentList = res.data.data;
-      }
-    });
+    this.loadComment();
+  },
+  methods: {
+    loadComment() {
+      this.$axios({
+        url: "/user_comments",
+        params: { pageIndex: this.pageIndex, pageSize: this.pageSize },
+      }).then((res) => {
+        if (res.status == 200) {
+          this.commentList = [...this.commentList, ...res.data.data];
+          if (res.data.data.length < this.pageSize) {
+            console.log(1);
+            this.isMoreComment = false;
+          }
+          console.log(this.isMoreComment);
+        }
+      });
+    },
+    moreComment() {
+      this.pageIndex++;
+      this.loadComment();
+    },
   },
 };
 </script>
@@ -47,6 +70,7 @@ export default {
 #myComment {
   background-color: #f2f2f2;
   min-height: 100vh;
+  overflow: hidden;
 }
 .commentList {
   .item {
@@ -105,5 +129,26 @@ export default {
       }
     }
   }
+}
+.moreComment {
+  margin: 20 / 360 * 100vw auto;
+  text-align: center;
+  font-size: 14 / 360 * 100vw;
+  color: #666;
+  width: 100 / 360 * 100vw;
+  height: 30 / 360 * 100vw;
+  line-height: 30 / 360 * 100vw;
+  border: 1px solid #666;
+  border-radius: 15 / 360 * 100vw;
+}
+
+.unMoreComment {
+  margin: 20 / 360 * 100vw auto;
+  text-align: center;
+  font-size: 14 / 360 * 100vw;
+  color: #aaa;
+  width: 100 / 360 * 100vw;
+  height: 30 / 360 * 100vw;
+  line-height: 30 / 360 * 100vw;
 }
 </style>
