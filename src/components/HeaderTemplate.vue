@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div class="back" @click="$router.back()">
-      <i class="iconfont iconjiantou"></i>
+      <i class="iconfont iconjiantou2"></i>
     </div>
     <div class="title">{{ title }}</div>
   </div>
@@ -22,6 +22,9 @@ export default {
     font-weight: 700;
     color: #aaa;
     top: 4.5vw;
+    .iconjiantou2 {
+      font-size: 16 / 360 * 100vw;
+    }
   }
   .title {
     text-align: center;

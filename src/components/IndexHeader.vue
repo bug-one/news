@@ -3,7 +3,9 @@
     <div class="logo">
       <i class="iconfont iconnew"></i>
     </div>
-    <div class="search"><i class="iconfont iconsearch"></i>搜索新闻</div>
+    <div class="search" @click="$router.push('/search')">
+      <i class="iconfont iconsearch"></i>搜索新闻
+    </div>
     <div class="user" @click="$router.push('user').catch(() => {})">
       <i class="iconfont iconwode"></i>
     </div>

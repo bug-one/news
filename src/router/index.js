@@ -9,6 +9,7 @@ import MyFocus from '../views/profile/MyFocus.vue'
 import Star from '../views/profile/Star.vue'
 import PostDetail from '../views/PostDetail.vue'
 import MoreComment from '../views/MoreComment.vue'
+import Search from '../views/Search.vue'
 
 
 Vue.use(VueRouter)
@@ -25,7 +26,8 @@ const routes = [
   { path: '/myFocus', component: MyFocus, meta: { needAuth: true } },
   { path: '/star', component: Star },
   { path: '/postDetail/:id', component: PostDetail },
-  { path: '/moreComment/:id', component: MoreComment }
+  { path: '/moreComment/:id', component: MoreComment },
+  { path: '/search', component: Search }
 ]
 
 const router = new VueRouter({
