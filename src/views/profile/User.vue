@@ -28,7 +28,11 @@
       description="关注的用户"
       @click.native="toMyFous"
     />
-    <toSetTemplate title="我的跟帖" description="跟帖/回复" />
+    <toSetTemplate
+      title="我的跟帖"
+      description="跟帖/回复"
+      @click.native="$router.push('/myComment')"
+    />
     <toSetTemplate
       title="我的收藏"
       description="文章/视频"
