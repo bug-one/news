@@ -9,20 +9,23 @@
     >
       <commentMain
         :commentData="comment"
-        v-for="comment in commentList"
-        :key="comment.id"
+        v-for="(comment, index) in commentList"
+        :key="index"
       />
     </van-list>
+    <commentInput @isComment="getComment" />
   </div>
 </template>
 
 <script>
 import headerTemplate from "../components/HeaderTemplate";
 import commentMain from "../components/comment/Main";
+import commentInput from "../components/CommentInput";
 export default {
   components: {
     headerTemplate,
     commentMain,
+    commentInput,
   },
   data() {
     return {
