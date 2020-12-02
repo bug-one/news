@@ -2,7 +2,12 @@
   <div id="myComment">
     <headerTemplate title="我的跟帖" />
     <div class="commentList">
-      <div class="item" v-for="msg in commentList" :key="msg.id">
+      <div
+        class="item"
+        v-for="msg in commentList"
+        :key="msg.id"
+        @click="$router.push('/postDetail/' + msg.post.id)"
+      >
         <div class="date">2019-10-10 10:25</div>
         <div class="parent" v-if="msg.parent">
           <div class="name">回复: {{ msg.parent.user.nickname }}</div>
