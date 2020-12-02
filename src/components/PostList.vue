@@ -88,7 +88,7 @@ export default {
     display: flex;
     justify-content: space-between;
     img {
-      width: 112 / 360 * 100vw;
+      width: 100 / 360 * 100vw;
       height: 74 / 360 * 100vw;
       object-fit: cover;
     }

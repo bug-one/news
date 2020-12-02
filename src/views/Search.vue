@@ -1,41 +1,33 @@
 <template>
   <div id="search">
     <div class="searchModule">
-      <span class="iconfont iconjiantou2"> </span>
-      <div class="search">
+      <span class="iconfont iconjiantou2" @click="goback"> </span>
+      <div class="search" @click="focus">
         <span class="iconfont iconsearch"></span>
-        <input type="text" name="" id="" placeholder="嘻嘻嘻" />
+        <input
+          type="text"
+          name=""
+          id=""
+          :placeholder="placeholder"
+          ref="input"
+          v-model="keyword"
+        />
       </div>
-      <div class="btn">搜索</div>
+      <div class="btn" @click="postSearch()">搜索</div>
     </div>
-    <div class="history">
+    <postList :list="post" v-for="post in postList" :key="post.id" />
+    <div class="unsearch" v-if="postList.length == 0 && keyword && isSearch">
+      未搜索到文章哦~
+    </div>
+    <div class="history" v-if="postList.length == 0 && !keyword">
       <div class="title">历史记录</div>
       <ul class="historyList">
         <li>哈哈</li>
       </ul>
     </div>
-    <div class="hotSearch">
+    <div class="hotSearch" v-if="postList.length == 0 && !keyword">
       <div class="title">热门搜索</div>
       <ul class="hotList">
-        <li>哈哈</li>
-        <li>哈哈</li>
-        <li>哈哈</li>
-        <li>哈哈</li>
-        <li>哈哈</li>
-        <li>哈哈</li>
-        <li>哈哈</li>
-        <li>哈哈</li>
-        <li>哈哈</li>
-        <li>哈哈</li>
-        <li>哈哈</li>
-        <li>哈哈</li>
-        <li>哈哈</li>
-        <li>哈哈</li>
-        <li>哈哈</li>
-        <li>哈哈</li>
-        <li>哈哈</li>
-        <li>哈哈</li>
-        <li>哈哈</li>
         <li>哈哈</li>
       </ul>
     </div>
@@ -43,7 +35,54 @@
 </template>
 
 <script>
-export default {};
+import postList from "../components/PostList";
+export default {
+  components: {
+    postList,
+  },
+  data() {
+    return {
+      keyword: "",
+      postList: [],
+      isSearch: false,
+      placeholder: "关晓彤",
+    };
+  },
+  methods: {
+    focus() {
+      this.$refs.input.focus();
+      this.isSearch = false;
+    },
+    goback() {
+      if (this.keyword) {
+        this.keyword = "";
+      } else {
+        this.$router.back();
+      }
+    },
+    postSearch() {
+      if (!this.keyword) {
+        this.keyword = this.placeholder;
+      }
+      this.$axios({
+        url: "/post_search",
+        params: { keyword: this.keyword },
+      }).then((res) => {
+        if (res.status == 200) {
+          this.postList = res.data.data;
+          this.isSearch = true;
+        }
+      });
+    },
+  },
+  watch: {
+    keyword(val) {
+      if (val.length == 0) {
+        this.postList = [];
+      }
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>
@@ -89,6 +128,12 @@ export default {};
     color: #333;
     padding-left: 12 / 360 * 100vw;
   }
+}
+.unsearch {
+  color: #666;
+  text-align: center;
+  margin-top: 40vh;
+  font-size: 14 / 360 * 100vw;
 }
 .history {
   font-size: 14 / 360 * 100vw;
