@@ -19,16 +19,34 @@
     <div class="unsearch" v-if="postList.length == 0 && keyword && isSearch">
       未搜索到文章哦~
     </div>
-    <div class="history" v-if="postList.length == 0 && !keyword">
+    <div
+      class="history"
+      v-if="postList.length == 0 && !keyword && historyList.length > 0"
+    >
       <div class="title">历史记录</div>
       <ul class="historyList">
-        <li>哈哈</li>
+        <li
+          v-for="(history, index) in historyList"
+          :key="index"
+          @click="historySearch(history)"
+        >
+          {{ history }}
+        </li>
       </ul>
     </div>
-    <div class="hotSearch" v-if="postList.length == 0 && !keyword">
+    <div
+      class="hotSearch"
+      v-if="postList.length == 0 && !keyword && hotList.length > 0"
+    >
       <div class="title">热门搜索</div>
       <ul class="hotList">
-        <li>哈哈</li>
+        <li
+          v-for="(hot, index) in hotList"
+          :key="index"
+          @click="hotSearch(hot)"
+        >
+          {{ hot }}
+        </li>
       </ul>
     </div>
   </div>
@@ -46,7 +64,21 @@ export default {
       postList: [],
       isSearch: false,
       placeholder: "关晓彤",
+      historyList: [],
+      hotList: [
+        "尤雨溪",
+        "尤雨溪是神",
+        "vue作者",
+        "vue与react",
+        "vue源码",
+        "花旦",
+      ],
     };
+  },
+  created() {
+    if (JSON.parse(localStorage.getItem("historySearch"))) {
+      this.historyList = JSON.parse(localStorage.getItem("historySearch"));
+    }
   },
   methods: {
     focus() {
@@ -71,8 +103,23 @@ export default {
         if (res.status == 200) {
           this.postList = res.data.data;
           this.isSearch = true;
+          for (let i = 0; i < this.historyList.length; i++) {
+            if (this.historyList[i] == this.keyword) {
+              this.historyList.splice(i, 1);
+              break;
+            }
+          }
+          this.historyList.unshift(this.keyword);
         }
       });
+    },
+    hotSearch(hot) {
+      this.keyword = hot;
+      this.postSearch();
+    },
+    historySearch(history) {
+      this.keyword = history;
+      this.postSearch();
     },
   },
   watch: {
@@ -80,6 +127,9 @@ export default {
       if (val.length == 0) {
         this.postList = [];
       }
+    },
+    historyList(val) {
+      localStorage.setItem("historySearch", JSON.stringify(val));
     },
   },
 };
